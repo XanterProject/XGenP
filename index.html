@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XGenP — Генератор</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XGenP — Пароли без хранения</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <h1>Генератор личных паролей :)</h1>
-  <ul id="services">
-    <li><button onclick="generate('facebook.com')">Facebook</button></li>
-    <li><button onclick="generate('vk.com')">VK</button></li>
-    <li><button onclick="generate('gmail.com')">Gmail</button></li>
-  </ul>
-  <p id="output">Пароль: <span id="password">---</span></p>
+
+  <header>
+    <h1>Мой генератор паролей :)</h1>
+  </header>
+
+  <main id="service-list" class="grid-view">
+    <!-- Сюда будут подгружаться сервисы -->
+  </main>
   <div id="log"></div>
+
+  <footer>
+    <div class="footer-left">
+      <button id="toggle-view">🔁 Режим</button>
+    </div>
+    <div class="footer-right">
+      <span>by Xanter</span>
+    </div>
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

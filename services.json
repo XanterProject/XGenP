@@ -1,0 +1,14 @@
+[
+  {
+    "id": "github.com",
+    "name": "GitHub",
+    "icon": "github.png",
+    "length": 16
+  },
+  {
+    "id": "google.com",
+    "name": "Google",
+    "icon": "google.png",
+    "length": 20
+  }
+]
