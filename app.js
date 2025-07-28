@@ -1,4 +1,4 @@
-let DEBUG = false;
+let DEBUG = true; // Установите в false для продакшн-режима
 
 function CheckWork() {
   if (!window.isSecureContext) {
