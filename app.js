@@ -97,7 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const passwordSpan = collapse.querySelector(".generated-password");
       generatePassword(service.id, service.length || 16)
         .then(pass => passwordSpan.textContent = pass)
-        .catch(() => passwordSpan.textContent = "Ошибка");
+        .catch(err => passwordSpan.textContent = "Ошибка");
+        log(err); // Логирование ошибок генерации пароля
 
       let isExpanded = false;
       container.addEventListener("click", () => {
