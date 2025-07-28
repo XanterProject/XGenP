@@ -165,14 +165,59 @@ document.addEventListener("DOMContentLoaded", () => {
   scriptZip.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
   document.head.appendChild(scriptZip);
 
+  // Функция регистрации нового биометрического ключа
+  async function registerCredential() {
+    const publicKey = {
+      challenge: new Uint8Array(32),
+      rp: { name: "XGenP" },
+      user: {
+        id: new Uint8Array(16),
+        name: "user@example.com",
+        displayName: "User"
+      },
+      pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+      authenticatorSelection: { userVerification: "required" },
+      timeout: 60000,
+      attestation: "none"
+    };
+
+    const cred = await navigator.credentials.create({ publicKey });
+    const id = new Uint8Array(cred.rawId);
+    localStorage.setItem("allowedCredentials", JSON.stringify([
+      { id: id, type: "public-key", transports: ["internal"] }
+    ]));
+    alert("Биометрический ключ зарегистрирован! Теперь можно пользоваться сервисом.");
+  }
+
   // 📎 WebAuthn: Получение мастер-ключа
   async function getMasterKey() {
+    let allowed = localStorage.getItem("allowedCredentials");
+    if (!allowed || allowed === "[]") {
+      if (confirm("Биометрический ключ не найден. Зарегистрировать сейчас?")) {
+        await registerCredential();
+        allowed = localStorage.getItem("allowedCredentials");
+        if (!allowed || allowed === "[]") {
+          alert("Регистрация не удалась.");
+          return null;
+        }
+      } else {
+        alert("Без регистрации биометрии работа невозможна.");
+        return null;
+      }
+    }
+
+    const allowCredentials = JSON.parse(allowed);
+    // Преобразуем id обратно в Uint8Array
+    allowCredentials.forEach(obj => {
+      if (Array.isArray(obj.id)) obj.id = new Uint8Array(obj.id);
+    });
+
     const cred = await navigator.credentials.get({
       publicKey: {
         challenge: new Uint8Array(32),
         timeout: 60000,
         userVerification: 'required',
-        allowCredentials: JSON.parse(localStorage.getItem("allowedCredentials") || "[]")
+        allowCredentials
       }
     });
 
