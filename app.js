@@ -191,11 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 📎 WebAuthn: Получение мастер-ключа
   async function getMasterKey() {
-    if (DEBUG) {
-      // Возвращаем фейковый мастер-ключ для отладки
-      const fake = new TextEncoder().encode("debug-master-key");
-      return await crypto.subtle.digest('SHA-256', fake);
-    }
+    // if (DEBUG) {
+    //   // Возвращаем фейковый мастер-ключ для отладки
+    //   const fake = new TextEncoder().encode("debug-master-key");
+    //   return await crypto.subtle.digest('SHA-256', fake);
+    // }
 
     let allowed = localStorage.getItem("allowedCredentials");
     if (!allowed || allowed === "[]") {
