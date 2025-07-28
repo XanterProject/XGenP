@@ -167,23 +167,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 📎 WebAuthn: Получение мастер-ключа
   async function getMasterKey() {
-    try {
-      const cred = await navigator.credentials.get({
-        publicKey: {
-          challenge: new Uint8Array(32),
-          timeout: 60000,
-          userVerification: 'required',
-          allowCredentials: JSON.parse(localStorage.getItem("allowedCredentials") || "[]")
-        }
-      });
+    const cred = await navigator.credentials.get({
+      publicKey: {
+        challenge: new Uint8Array(32),
+        timeout: 60000,
+        userVerification: 'required',
+        allowCredentials: JSON.parse(localStorage.getItem("allowedCredentials") || "[]")
+      }
+    });
 
-      const rawId = cred.rawId;
-      const buffer = new Uint8Array(rawId);
-      return await crypto.subtle.digest('SHA-256', buffer);
-    } catch (err) {
-      alert("Ошибка аутентификации: " + err.message);
-      throw err; // чтобы можно было логически обрабатывать выше
-    }
+    const rawId = cred.rawId;
+    const buffer = new Uint8Array(rawId);
+    return await crypto.subtle.digest('SHA-256', buffer);
   }
 
 
